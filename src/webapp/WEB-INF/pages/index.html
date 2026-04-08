@@ -6,10 +6,25 @@
     <title></title>
 </head>
 <body>
-<div>
-    <th:block th:each="msg : ${messages}">
-        <h1 th:text="${msg}"></h1>
-    </th:block>
-</div>
+<h1>User list</h1>
+<table border="1">
+<tr>
+    <th>id</th>
+    <th>name</th>
+    <th>email</th>
+</tr>
+
+<!--<tr th:each="user : ${users}">-->
+<!--    <td th:text="${user.id}"></td>-->
+<!--    <td th:text="${user.name}"></td>-->
+<!--    <td th:text="${user.email}"></td>-->
+<!--    <td>-->
+<!--        <a href="/edit/${user.id}">edit</a>-->
+<!--        <a href="/delete/${user.id}">delete</a>-->
+<!--    </td>-->
+<!--</tr>-->
+</table>
+<h2>Add user</h2>
+<!--<a href="${add}">Add new user</a>-->
 </body>
 </html>
