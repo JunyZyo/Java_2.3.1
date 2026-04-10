@@ -3,11 +3,9 @@ package web.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.dao.UserDao;
-import web.dao.UserDaoImp;
 import web.model.User;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
 import java.util.List;
 
 @Service

@@ -1,12 +1,6 @@
 package web.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.util.Enumeration;
 
 public class AppInit extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -19,9 +13,7 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
     // Добавление конфигурации, в которой инициализируем ViewResolver, для корректного отображения jsp.
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[]{
-                WebConfig.class
-        };
+        return new Class<?>[]{WebConfig.class};
     }
 
     /* Данный метод указывает url, на котором будет базироваться приложение */

@@ -9,10 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import web.model.User;
 import web.service.UserService;
-import web.service.UserServiceImpl;
-import web.model.User;
-import web.service.UserService;
-import web.service.UserServiceImpl;
 
 import java.util.List;
 

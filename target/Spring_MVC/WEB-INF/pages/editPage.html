@@ -6,26 +6,26 @@
 </head>
 <body>
 
-    <h1 th:text="${isNew} ? 'Add new user' : 'Edit user'"></h1>
-    <form th:action="${isNew} ? @{/add} : @{/edit}" th:object="${user}" method="POST">
+<h1 th:text="${isNew} ? 'Add new user' : 'Edit user'"></h1>
+<form th:action="${isNew} ? @{/add} : @{/edit}" th:object="${user}" method="POST">
 
-        <input type="hidden" th:field="*{id}">
+    <input type="hidden" th:field="*{id}">
 
-        <label for="firstName">FristName</label>
-        <input type="text" id="firstName" th:field="*{firstName}" required>
+    <label for="firstName">FristName</label>
+    <input type="text" id="firstName" th:field="*{firstName}" required>
 
-        <label for="lastName">Last Name</label>
-        <input type="text" id="lastName" th:field="*{lastName}" required>
+    <label for="lastName">Last Name</label>
+    <input type="text" id="lastName" th:field="*{lastName}" required>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" th:field="*{email}" required>
+    <label for="email">Email</label>
+    <input type="email" id="email" th:field="*{email}" required>
 
-        <button type="submit" th:text="${isNew} ? 'Add new user' : 'Edit user'">
-            </button>
-    </form>
+    <button type="submit" th:text="${isNew} ? 'Add new user' : 'Edit user'">
+    </button>
+</form>
 
-    <br>
+<br>
 
-    <a th:href="@{/}">Back</a>
+<a th:href="@{/}">Back</a>
 </body>
 </html>
