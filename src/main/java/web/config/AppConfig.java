@@ -1,63 +1,68 @@
-//package web.config;
-//
-//import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.ComponentScan;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.context.annotation.PropertySource;
-//import org.springframework.core.env.Environment;
-//import org.springframework.jdbc.datasource.DriverManagerDataSource;
-//import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-//import org.springframework.transaction.annotation.EnableTransactionManagement;
-//
-//import javax.sql.DataSource;
-//import java.io.IOException;
-//import java.io.InputStream;
-//import java.util.Properties;
-//
-//
-//@Configuration
-//@PropertySource("classpath:db.properties")
-//@EnableTransactionManagement
-//@ComponentScan(value = "web")
-//public class AppConfig {
-//
-//    @Autowired
-//    private Environment env;
-//
-//
-//    @Bean
-//    public DataSource getDataSource() {
+package web.config;
+
+import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.*;
+import org.springframework.core.env.Environment;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.*;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+import java.util.Properties;
+
+@Configuration
+@ComponentScan(basePackages = "web")
+@EnableTransactionManagement
+@PropertySource("classpath:db.properties")
+
+public class AppConfig {
+
+    @Autowired
+    private Environment environment;
+
+    @Bean
+    public DataSource dataSource() {
+        BasicDataSource dataSource = new BasicDataSource();
 //        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName(env.getProperty("db.driver"));
-//        dataSource.setUrl(env.getProperty("db.url"));
-//        dataSource.setUsername(env.getProperty("db.username"));
-//        dataSource.setPassword(env.getProperty("db.password"));
-//        return dataSource;
-//    }
-//
-//    @Bean
-//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-//        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-//        em.setDataSource(getDataSource());
-//        em.setPackagesToScan(env.getRequiredProperty("db.entity.package"));
-//
-//        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-//        em.setJpaProperties(geetHibernateProperties());
-//        return em;
-//    }
-//
-//    private Properties geetHibernateProperties() {
-//        try {
-//            Properties properties = new Properties();
-//            InputStream is = getClass().getClassLoader().getResourceAsStream("hibernate.properties");
-//            properties.load(is);
-//
-//            return properties;
-//        } catch (IOException e) {
-//            throw new IllegalArgumentException("Неизвестно местоположение файла");
-//        }
-//
-//    }
-//}
+        dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
+        dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
+        dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
+        dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
+        return dataSource;
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean factory =
+                new LocalContainerEntityManagerFactoryBean();
+
+        factory.setDataSource(dataSource());
+        factory.setPackagesToScan("web.model");
+
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        factory.setJpaVendorAdapter(vendorAdapter);
+
+        factory.setJpaProperties(hibernateProperties());
+
+        return factory;
+    }
+
+    @Bean
+    public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(emf);
+        return transactionManager;
+    }
+
+    private Properties hibernateProperties() {
+        Properties properties = new Properties();
+        properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
+        properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
+        return properties;
+    }
+
+}

@@ -1,16 +1,14 @@
-//package web.service;
-//
-//import web.model.User;
-//
-//import java.util.List;
-//
-//public interface UserService {
-//
-//    void add(User user);
-//    void delete(User user);
-//    void edit (User user);
-//    User getById(int id);
-//
-//    List<User> listUsers();
-//
-//}
+package web.service;
+
+import web.model.User;
+
+import java.util.List;
+
+public interface UserService {
+
+    List<User> showUser();
+    void add(User user);
+    void delete(User user);
+    void edit (User user);
+    User getById(int id);
+}

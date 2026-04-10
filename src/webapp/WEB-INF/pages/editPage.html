@@ -2,9 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${user.id == null} ? 'Add' : 'Edit'"></title>
 </head>
 <body>
-    edit
+
+    <h1 th:text="${user.id == null} ? 'Add new user' : 'Edit user'"></h1>
+    <form th:action="${user.id == null} ? @{/add} : @{/edit}" method="POST">
+        <input type="hidden" name="id" th:value="${user.id}" th:if="${user.id != null}">
+
+        <label for="firstName">FristName</label>
+        <input type="text" name="firstName" id="firstName" th:value="${user.firstName}">
+
+        <label for="lastName">Last Name</label>
+        <input type="text" name="lastName" id="lastName" th:value="${user.lastName}">
+
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email" th:value="${user.email}">
+
+        <input type="submit" th:value="${user.id == null} ? 'Add new user' : 'Edit user'"/>
+    </form>
 </body>
 </html>
