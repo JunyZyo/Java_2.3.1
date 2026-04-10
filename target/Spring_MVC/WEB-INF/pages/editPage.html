@@ -2,24 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${user.id == null} ? 'Add' : 'Edit'"></title>
+    <title th:text="${isNew} ? 'Add' : 'Edit'"></title>
 </head>
 <body>
 
-    <h1 th:text="${user.id == null} ? 'Add new user' : 'Edit user'"></h1>
-    <form th:action="${user.id == null} ? @{/add} : @{/edit}" method="POST">
-        <input type="hidden" name="id" th:value="${user.id}" th:if="${user.id != null}">
+    <h1 th:text="${isNew} ? 'Add new user' : 'Edit user'"></h1>
+    <form th:action="${isNew} ? @{/add} : @{/edit}" th:object="${user}" method="POST">
+
+        <input type="hidden" th:field="*{id}">
 
         <label for="firstName">FristName</label>
-        <input type="text" name="firstName" id="firstName" th:value="${user.firstName}">
+        <input type="text" id="firstName" th:field="*{firstName}" required>
 
         <label for="lastName">Last Name</label>
-        <input type="text" name="lastName" id="lastName" th:value="${user.lastName}">
+        <input type="text" id="lastName" th:field="*{lastName}" required>
 
         <label for="email">Email</label>
-        <input type="text" name="email" id="email" th:value="${user.email}">
+        <input type="email" id="email" th:field="*{email}" required>
 
-        <input type="submit" th:value="${user.id == null} ? 'Add new user' : 'Edit user'"/>
+        <button type="submit" th:text="${isNew} ? 'Add new user' : 'Edit user'">
+            </button>
     </form>
+
+    <br>
+
+    <a th:href="@{/}">Back</a>
 </body>
 </html>

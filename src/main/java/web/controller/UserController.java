@@ -40,6 +40,7 @@ public class UserController {
     public ModelAndView editPage(@RequestParam("id") int id) {
         ModelAndView modelAndView = new ModelAndView("editPage");
         modelAndView.addObject("user", userService.getById(id));
+        modelAndView.addObject("isNew", false);
         return modelAndView;
     }
 
@@ -53,6 +54,7 @@ public class UserController {
     public ModelAndView addPage() {
         ModelAndView modelAndView = new ModelAndView("editPage");
         modelAndView.addObject("user", new User());
+        modelAndView.addObject("isNew", true);
         return modelAndView;
     }
 
@@ -62,7 +64,7 @@ public class UserController {
         return new ModelAndView("redirect:/");
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public ModelAndView deleteUser(@RequestParam("id") int id) {
         ModelAndView modelAndView = new ModelAndView("redirect:/");
         User user = userService.getById(id);

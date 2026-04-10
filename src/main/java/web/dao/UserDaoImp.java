@@ -18,8 +18,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class UserDaoImp implements UserDao {
-    private static final AtomicInteger AUTO_ID = new AtomicInteger(0);
-    private static Map<Integer, User> users = new HashMap<>();
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -33,22 +31,21 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public void add(User user) {
-        user.setId(AUTO_ID.getAndIncrement());
-        users.put(Math.toIntExact(user.getId()), user);
+        entityManager.persist(user);
     }
 
     @Override
     public void delete(User user) {
-        users.remove(user.getId());
+        entityManager.remove(entityManager.contains(user) ? user : entityManager.merge(user));
     }
 
     @Override
     public void edit(User user) {
-        users.put(Math.toIntExact(user.getId()), user);
+        entityManager.merge(user);
     }
 
     @Override
     public User getById(int id) {
-        return users.get(id);
+        return entityManager.find(User.class, id);
     }
 }

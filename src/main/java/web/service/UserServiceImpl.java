@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
 
@@ -22,7 +23,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public List<User> showUser() {
         return userDao.showUser();
     }
